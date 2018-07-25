@@ -135,7 +135,7 @@ class Department {
     }
 }
 
-let departmentWeb = new Department 
+let departmentWeb = new Department
 departmentWeb.setSpecial = 1
 
 let departmentMob = new Department
@@ -154,7 +154,7 @@ for (let index = 0; index < 10; index++) {
         }
         if (Tasks[index].getComplete == 1) {
             Tasks[index].setComplete(2)
-            
+
         }
         if (Tasks[index].getComplete == 0) {
             if (Tasks[index].getHard == 1) {
@@ -163,5 +163,3 @@ for (let index = 0; index < 10; index++) {
         }
     }
 }
-
-
