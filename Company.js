@@ -92,9 +92,8 @@ class Firm {
 
     gainAgents() {
         for (let index = 0; index < this.tasks; index++) {
-            console.log(this.tasks)
             let agent = new Agent
-            console.log(typeof(this.Tasks[index].Complete))
+            console.log(this.Tasks[index].Complete)
             if (this.Tasks[index].Complete == 1) {
                 departmentQA.Agents(agent)
                 agent.Practice(0)
@@ -111,7 +110,7 @@ class Firm {
                         console.log(agent)
                         break;
                     case 2:
-                        departmentWeb.Agents(agent)
+                        departmentMob.Agents(agent)
                         agent.Practice(0)
                         agent.Task(Tasks[index])
                         this.Tasks.splice(index, 1)
@@ -122,28 +121,7 @@ class Firm {
         }
     }
 
-    Work() {
-        for (let index = 0; index < Tasks.length; index++) {
-            if (Tasks[index].complete != 1) {
-                Agents.forEach(function (item) {
-                    if (Agents[item].Practice() > 0 &&
-                        Agents[item].Special() == Tasks[index].Type()) {
-                        Agents[item].Task(1)
-                        Agents[item].Practice(0)
-                    }
-                });
-            }
-            if (Tasks[index].complete) {
-                Agents.forEach(function (item) {
-                    if (Agents[item].Practice() > 0 &&
-                        Agents[item].Special() == 3) {
-                        Agents[item].Task(1)
-                        Agents[item].Practice(0)
-                    }
-                });
-            }
-        }
-    }
+    
 }
 
 
