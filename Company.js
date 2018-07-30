@@ -4,7 +4,7 @@ class Task {
   constructor() {
     this.type = Math.floor(Math.random(2) * 2) + 1;
     this.hard = Math.floor(Math.random(3) * 3) + 1;
-    this.Complete = 0;
+    this.complete = 0;
 
     this.Complete = function(complete) {
       if (!arguments.length) return this.complete;
