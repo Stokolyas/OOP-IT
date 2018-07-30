@@ -1,11 +1,16 @@
+'use strict'
 // type == 1 web type = 2 mob
 class Task {
     constructor() {
         this.type = Math.floor(Math.random(2) * (2)) + 1;
         this.hard = Math.floor(Math.random(3) * (3)) + 1;
         this.complete = 0
-    }
 
+        this.Complete = function(complete){
+            if (!arguments.length) return this.complete;
+            this.complete = complete
+    }
+    }
     get Type() {
         return this.type
     }
@@ -13,36 +18,21 @@ class Task {
     get Hard() {
         return this.hard
     }
-
-    get Complete() {
-        return this.complete
-    }
-
-    set Complete(complete) {
-        this.complete = complete
-    }
 }
 
 class Agent {
     constructor() {
-        this.practice
-        this.tasks
-    }
+        this.practice = 0
+        this.tasks = 0
 
-    set Task(index) {
-        this.tasks += index
-    }
-
-    set Practice(n) {
-        this.practice = n
-    }
-
-    get Task() {
-        return (this.tasks)
-    }
-
-    get Practice() {
-        return (this.practice)
+        this.Practice = function(count){
+            if (!arguments.length) return this.practice;
+            this.practice += count
+        }
+        this.Task = function(task){
+            if (!arguments.length) return this.tasks;
+            this.tasks += task
+        }
     }
 }
 
@@ -51,10 +41,11 @@ class Department {
     constructor() {
         this.agents
         this.special
-    }
-
-    set Agents(agent) {
-        this.agents += agent
+    
+        this.Agents = function(agent){
+            if (!arguments.length) return this.agents;
+            this.agents += agent
+        }
     }
 
     set Special(n) {
@@ -64,10 +55,6 @@ class Department {
     get Special() {
         return (this.special)
     }
-
-    get Agents() {
-        return this.agents
-    }
 }
 
 class Firm {
@@ -75,7 +62,7 @@ class Firm {
         this.Tasks = []
         this.tasks
     }
-    
+
     gainTasks() {
         this.tasks = Math.floor(Math.random(4) * (5));
         console.log(this.tasks)
@@ -84,7 +71,6 @@ class Firm {
             let task = new Task
             console.log(task)
             this.Tasks[index] = task
-            
             console.log(this.Tasks)
         }
         
@@ -94,11 +80,10 @@ class Firm {
         for (let index = 0; index < this.tasks; index++) {
             console.log(this.tasks)
             let agent = new Agent
-            console.log(typeof(this.Tasks[index].Complete))
-            if (this.Tasks[index].Complete == 1) {
+            if (this.Tasks[index].Complete() == 1) {
                 departmentQA.Agents(agent)
                 agent.Practice(0)
-                agent.Task(1)
+                agent.Task(this.Tasks[index])
                 this.Tasks.splice(index, 1)
                 console.log(agent)
             } else {
@@ -106,19 +91,40 @@ class Firm {
                     case 1:
                         departmentWeb.Agents(agent)
                         agent.Practice(0)
-                        agent.Task(Tasks[index])
+                        console.log(this.Tasks[index])
+                        agent.Task(1)
                         this.Tasks.splice(index, 1)
                         console.log(agent)
                         break;
                     case 2:
                         departmentWeb.Agents(agent)
                         agent.Practice(0)
-                        agent.Task(Tasks[index])
+                        agent.Task(1)
                         this.Tasks.splice(index, 1)
                         console.log(agent)
                         break;
                 }
             }
+        }
+    }
+    delAgent(){
+        for (let index = 0; index < departmentMob.getAgents(); index++) {
+            if (departmentMob.Agents[index].practice == 4){
+                departmentMob.Agents.splice(index, 1)
+            }
+            
+        }
+        for (let index = 0; index < departmentWeb.getAgents(); index++) {
+            if (departmentWeb.Agents[index].practice == 4){
+                departmentWeb.Agents.splice(index, 1)
+            }
+            
+        }
+        for (let index = 0; index < departmentQA.getAgents(); index++) {
+            if (departmentQA.Agents[index].practice == 4){
+                departmentQA.Agents.splice(index, 1)
+            }
+            
         }
     }
 
@@ -159,9 +165,12 @@ departmentQA.setSpecial = 3
 let firm = new Firm
 
 firm.gainTasks(); // получение тасков 1 день
+firm.gainAgents();
 
-for (let index = 1; index < 10; index++) {
-    console.log(index)
-    firm.gainAgents();
-    
+
+function day() {
+    firm.gainTasks();//получение тасков
+    firm.gainAgents();//найм работнков
+//передача проектов
+    firm.delAgent();// увольнение
 }
