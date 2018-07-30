@@ -1,68 +1,3 @@
-var Agents = []
-var Tasks = []
-
-
-class Firm {
-    constructor() {}
-
-    gainTasks() {
-        tasks = Math.floor(Math.random(4) * (5));
-        for (let index = Tasks.length; index < Tasks.length + tasks; index++) {
-            let task = new Task
-            Tasks[index] = task
-        }
-    }
-
-    gainAgents() {
-        for (let index = 0; index < tasks; index++) {
-            let agent = new Agent
-            if (Tasks[index].getComplete() == 1) {
-                departmentQA.setAgents(agent)
-                agent.setPractice(0)
-                agent.setTask()
-                Tasks.splice(index, 1)
-            } else {
-                switch (Tasks[index].getType()) {
-                    case 1:
-                        departmentWeb.setAgents(agent)
-                        agent.setPractice(0)
-                        agent.setTask(Tasks[index])
-                        Tasks.splice(index, 1)
-                        break;
-                    case 2:
-                        departmentMob.setAgents(agent)
-                        agent.setPractice(0)
-                        agent.setTask(Tasks[index])
-                        Tasks.splice(index, 1)
-                        break;
-                }
-            }
-        }
-    }
-
-    Work() {
-        for (let index = 0; index < Tasks.length; index++) {
-            if (Tasks[index].complete != 1) {
-                Agents.forEach(function (item) {
-                    if (Agents[item].getPractice() > 0 &&
-                        Agents[item].getSpecial() == Tasks[index].getType()) {
-                        Agents[item].setTask()
-                        Agents[item].setPractice(0)
-                    }
-                });
-            }
-            if (Tasks[index].complete) {
-                Agents.forEach(function (item) {
-                    if (Agents[item].getPractice() > 0 &&
-                        Agents[item].getSpecial() == 3) {
-                        Agents[item].setTask()
-                        Agents[item].setPractice(0)
-                    }
-                });
-            }
-        }
-    }
-}
 // type == 1 web type = 2 mob
 class Task {
     constructor() {
@@ -71,19 +6,19 @@ class Task {
         this.complete = 0
     }
 
-    getType() {
+    get Type() {
         return this.type
     }
 
-    getHard() {
+    get Hard() {
         return this.hard
     }
 
-    getComplete() {
+    get Complete() {
         return this.complete
     }
 
-    setComplete(complete) {
+    set Complete(complete) {
         this.complete = complete
     }
 }
@@ -94,19 +29,19 @@ class Agent {
         this.tasks
     }
 
-    setTask() {
-        this.tasks += 1
+    set Task(index) {
+        this.tasks += index
     }
 
-    setPractice(n) {
+    set Practice(n) {
         this.practice = n
     }
 
-    getTask() {
+    get Task() {
         return (this.tasks)
     }
 
-    getPractice() {
+    get Practice() {
         return (this.practice)
     }
 }
@@ -118,22 +53,99 @@ class Department {
         this.special
     }
 
-    setAgents(agent) {
+    set Agents(agent) {
         this.agents += agent
     }
 
-    setSpecial(n) {
+    set Special(n) {
         this.special = n
     }
 
-    getSpecial() {
+    get Special() {
         return (this.special)
     }
 
-    getAgents() {
+    get Agents() {
         return this.agents
     }
 }
+
+class Firm {
+    constructor() {
+        this.Tasks = []
+        this.tasks
+    }
+    
+    gainTasks() {
+        this.tasks = Math.floor(Math.random(4) * (5));
+        console.log(this.tasks)
+        var taskLen = this.Tasks.length
+        for (let index = taskLen; index < taskLen + this.tasks; index++) {
+            let task = new Task
+            console.log(task)
+            this.Tasks[index] = task
+            
+            console.log(this.Tasks)
+        }
+        
+    }
+
+    gainAgents() {
+        for (let index = 0; index < this.tasks; index++) {
+            console.log(this.tasks)
+            let agent = new Agent
+            console.log(typeof(this.Tasks[index].Complete))
+            if (this.Tasks[index].Complete == 1) {
+                departmentQA.Agents(agent)
+                agent.Practice(0)
+                agent.Task(1)
+                this.Tasks.splice(index, 1)
+                console.log(agent)
+            } else {
+                switch (this.Tasks[index].Type) {
+                    case 1:
+                        departmentWeb.Agents(agent)
+                        agent.Practice(0)
+                        agent.Task(Tasks[index])
+                        this.Tasks.splice(index, 1)
+                        console.log(agent)
+                        break;
+                    case 2:
+                        departmentWeb.Agents(agent)
+                        agent.Practice(0)
+                        agent.Task(Tasks[index])
+                        this.Tasks.splice(index, 1)
+                        console.log(agent)
+                        break;
+                }
+            }
+        }
+    }
+
+    Work() {
+        for (let index = 0; index < Tasks.length; index++) {
+            if (Tasks[index].complete != 1) {
+                Agents.forEach(function (item) {
+                    if (Agents[item].Practice() > 0 &&
+                        Agents[item].Special() == Tasks[index].Type()) {
+                        Agents[item].Task(1)
+                        Agents[item].Practice(0)
+                    }
+                });
+            }
+            if (Tasks[index].complete) {
+                Agents.forEach(function (item) {
+                    if (Agents[item].Practice() > 0 &&
+                        Agents[item].Special() == 3) {
+                        Agents[item].Task(1)
+                        Agents[item].Practice(0)
+                    }
+                });
+            }
+        }
+    }
+}
+
 
 let departmentWeb = new Department
 departmentWeb.setSpecial = 1
@@ -144,22 +156,12 @@ departmentMob.setSpecial = 2
 let departmentQA = new Department
 departmentQA.setSpecial = 3
 
-for (let index = 0; index < 10; index++) {
-    Firm.gainTasks // получение тасков
-    Firm.gainAgents // распределение тасков
-    // конец рабочего дня // перенаправление на тесты // закрытие тасков
-    for (let index = 0; index < Tasks.length; index++) {
-        if (Tasks[index].getComplete == 2) {
-            Tasks.splice(index, 1)
-        }
-        if (Tasks[index].getComplete == 1) {
-            Tasks[index].setComplete(2)
+let firm = new Firm
 
-        }
-        if (Tasks[index].getComplete == 0) {
-            if (Tasks[index].getHard == 1) {
-                Tasks[index].setComplete(1)
-            }
-        }
-    }
+firm.gainTasks(); // получение тасков 1 день
+
+for (let index = 1; index < 10; index++) {
+    console.log(index)
+    firm.gainAgents();
+    
 }
