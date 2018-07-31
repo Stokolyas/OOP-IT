@@ -65,8 +65,7 @@ class Department {
   }
 }
 
-var Tasks
-Tasks = []
+var Tasks = []
 
 class Firm {
 
@@ -77,16 +76,14 @@ class Firm {
   gainTasks() {
     this.countTask = Math.floor(Math.random(4) * 5);
       let taskLen = Tasks.length;
-      for (var index = 0; index < this.countTask; index++) {
+      for (var index = taskLen; index < taskLen + this.countTask; index++) {
       let task = new Task();
-      console.log(task);
       Tasks[index] = task;
       console.log(Tasks);
     }
   }
 
   gainAgents() {
-    console.log(this.countTask)
     for (let index = 0; index < this.countTask; index++) {
       let agent = new Agent();
         if (Tasks[index].Complete() > 0) {
@@ -182,5 +179,6 @@ departmentQA.setSpecial = 3;
 
 let firm = new Firm();
 
-firm.gainTasks(); // получение тасков 1 день
 firm.gainAgents();
+firm.gainTasks(); // получение тасков 1 день
+
