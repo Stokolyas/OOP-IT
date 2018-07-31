@@ -73,6 +73,12 @@ class Firm {
     this.countTask = 0;
   }
 
+/*
+ * получение случайное количество тасков
+ * вычисление конца массива тасков
+ * дозапись тасков в массив
+ */
+
   gainTasks() {
     this.countTask = Math.floor(Math.random(4) * 5);
       let taskLen = Tasks.length;
@@ -82,6 +88,10 @@ class Firm {
       console.log(Tasks);
     }
   }
+
+/*
+ * найм работников на таски
+ */
 
   gainAgents() {
     for (let index = 0; index < this.countTask; index++) {
@@ -179,6 +189,7 @@ departmentQA.setSpecial = 3;
 
 let firm = new Firm();
 
-firm.gainAgents();
+firm.gainAgents(); // найм разрабов
 firm.gainTasks(); // получение тасков 1 день
-
+firm.sendTask(); // распределение тасков между всеми
+firm.delAgent(); // увольнение разрабов
