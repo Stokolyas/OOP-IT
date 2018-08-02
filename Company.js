@@ -1,4 +1,4 @@
-/* eslint-disable no-console,no-undef,max-statements,no-trailing-spaces,func-style */
+/* eslint-disable no-console,no-undef,max-statements,no-trailing-spaces,func-style,max-len */
 "use strict";
 // type == 1 web type = 2 mob
 class Task {
@@ -63,7 +63,6 @@ class Department {
 }
 
 var Tasks = []
-var Agents = []
 
 class Firm {
 
@@ -79,12 +78,11 @@ class Firm {
 
   gainTasks() {
     this.countTask = Math.floor(Math.random(4) * 5);
-    console.log(this.countTask)
+    console.log(this.countTask, "заданий")
     let taskLen = Tasks.length;
     for (var index = taskLen; index < taskLen + this.countTask; index++) {
       let task = new Task();
       Tasks[index] = task;
-      console.log(task)
     }
   }
 
@@ -118,9 +116,6 @@ class Firm {
       }
 
     }
-    console.log(departmentWeb)
-    console.log(departmentMob)
-    console.log(departmentQA)
   }
 
   delAgent() {
@@ -146,6 +141,7 @@ class Firm {
 
   sendTask() {
     // передача тасков свободным разрабам веб и моб
+    console.log('передача')
     for (let index = 0; index < Tasks.length; index++) {
       if (!Tasks[index].Busy() && Tasks[index].Complete() < 1) {
         departmentMob.agents.forEach(function (item) {
@@ -161,19 +157,18 @@ class Firm {
             Tasks[index].Type() === 1
           ) {
             Tasks[index].Busy(true)
-            departmentWeb.agents[item].Task(Tasks[index])
-            departmentWeb.agents[item].Practice(0);
+            item.Task(Tasks[index])
+            item.Practice(0);
           }
         });
       }
       // передача тасков свободным тестерам
       if (!Tasks[index].Busy() && Tasks[index].complete == 1) {
-        Agents.forEach(function (item) {
-          if (Agents[item].Practice() > 0 && Agents[item].Special() == 3) {
+        departmentQA.agents.forEach(function (item) {
+          if (item.Practice() > 0 && item.Special() == 3) {
             Tasks[index].Busy(true)
-            Agents[item].Task(Tasks[index])
-            Agents[item].Practice(0);
-            delTask(index)
+            item.Task(Tasks[index])
+            item.Practice(0);
           }
         });
       }
@@ -182,7 +177,6 @@ class Firm {
 
   workDay() {
     departmentWeb.Agents().forEach(function (item) {
-      console.log(item.Task()[0].Hard())
       var array = item.Task()
       for (let indexHard = 0; indexHard < array.length; indexHard++) {
         if (item.Task()[indexHard].hard === 1) {
@@ -198,7 +192,6 @@ class Firm {
       }
     });
     departmentMob.Agents().forEach(function (item) {
-      console.log(item.Task()[0].Hard())
       var array = item.Task()
       for (let indexHard = 0; indexHard < array.length; indexHard++) {
         if (item.Task()[indexHard].hard === 1) {
@@ -217,13 +210,10 @@ class Firm {
       var array = item.Task()
       for (let indexHard = 0; indexHard < array.length; indexHard++) {
           item.Practice(1);
-          item.Task()[indexHard].Complete(1)
+          item.Task()[indexHard].Complete(2)
+          console.log(item.Task()[indexHard])
       }
     });
-  }
-
-  delTask(task) {
-    Task.splice(task, 1)
   }
 }
 
@@ -241,9 +231,10 @@ let firm = new Firm();
 // eslint-disable-next-line require-jsdoc
 function day(count) {
   for (let index = 0; index < count; index++) {
+    console.log(index, "day")
     firm.gainAgents(); // найм разрабов
     firm.gainTasks(); // получение тасков 1 день
-//    firm.sendTask(); // распределение тасков между всеми
+    firm.sendTask(); // распределение тасков между всеми
     firm.workDay();
 
   }
