@@ -141,7 +141,6 @@ class Firm {
 
   sendTask() {
     // передача тасков свободным разрабам веб и моб
-    console.log('передача')
     for (let index = 0; index < Tasks.length; index++) {
       if (!Tasks[index].Busy() && Tasks[index].Complete() < 1) {
         departmentMob.agents.forEach(function (item) {

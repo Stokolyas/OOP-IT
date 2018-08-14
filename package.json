@@ -1,0 +1,8 @@
+{
+  "name": "",
+  "description": "OOP IT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "version": ""
+}
