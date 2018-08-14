@@ -116,6 +116,8 @@ class Firm {
       }
 
     }
+    
+    return Agents
   }
 
   delAgent() {
@@ -235,12 +237,12 @@ function day(count) {
     firm.gainTasks(); // получение тасков 1 день
     firm.sendTask(); // распределение тасков между всеми
     firm.workDay();
-
+    firm.delAgent();
   }
   console.log(Tasks)
   console.log(departmentWeb)
   console.log(departmentMob)
   console.log(departmentQA)
 }
-
+module.exports = firm
 day(5);

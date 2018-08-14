@@ -1,8 +1,28 @@
 {
   "name": "",
-  "description": "OOP IT",
-  "devDependencies": {
-    "mocha": "^5.2.0"
+  "version": "1.0.0",
+  "description": "OOP",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "mocha"
   },
-  "version": ""
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stokolyas/OOP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stokolyas/OOP/issues"
+  },
+  "homepage": "https://github.com/Stokolyas/OOP#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^5.3.0",
+    "mocha": "^5.2.0"
+  }
 }
